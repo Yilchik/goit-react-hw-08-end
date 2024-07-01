@@ -1,0 +1,7 @@
+.title {
+  display: flex;
+  align-items: baseline;
+
+  gap: 40px;
+  padding: 5px;
+}
