@@ -16,7 +16,7 @@ export const validationSchema = yup.object().shape({
   password: yup.string().trim().required("Password is required").min(8),
 });
 
-const RegistrationForm = ({ submit }) => {
+const RegistrationForm = () => {
   const dispatch = useDispatch();
   const nameId = useId();
   const emailId = useId();

@@ -22,7 +22,7 @@ export const registerOperation = createAsyncThunk(
         email,
         password,
       });
-      token.setAuth(response.token);
+      token.setAuth(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -35,7 +35,7 @@ export const loginOperation = createAsyncThunk(
   async (userInfo, thunkAPI) => {
     try {
       const response = await axios.post("/users/login", userInfo);
-      token.setAuth(response.token);
+      token.setAuth(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -63,11 +63,10 @@ export const refreshUser = createAsyncThunk(
     }
     token.setAuth(persistedToken);
     try {
-      axios.defaults.headers.common.Authorization = `Bearer ${persistedToken}`;
       const response = await axios.get("/users/current");
       return response.data;
     } catch (error) {
-      toast("User is not found!");
+      toast.error("User is not found!");
       return thunkAPI.rejectWithValue(error.message);
     }
   }

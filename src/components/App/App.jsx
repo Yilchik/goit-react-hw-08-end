@@ -1,4 +1,4 @@
-import { lazy, useEffect } from "react";
+import { lazy, useEffect, Suspense } from "react";
 import Layout from "../Layout/Layout";
 import { Route, Routes } from "react-router-dom";
 import RestrictedRoute from "../RestrictedRoute/RestrictedRoute";
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectIsRefreshing } from "../../redux/auth/selectors";
 import { refreshUser } from "../../redux/auth/operations";
-import { Suspense } from "react";
 
 const HomePage = lazy(() => import("../../pages/HomePage/HomePage"));
 const RegistrationPage = lazy(() =>
@@ -30,7 +29,7 @@ const App = () => {
     <b>Refreshing user, please wait...</b>
   ) : (
     <Layout>
-      <Suspense fallback={null}>
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
