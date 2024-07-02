@@ -1,13 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 axios.defaults.baseURL = "https://connections-api.herokuapp.com";
 
+const token = {
+  setAuth(token) {
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  },
+  clearAuth() {
+    axios.defaults.headers.common.Authorization = "";
+  },
+};
+
 export const registerOperation = createAsyncThunk(
   "auth/register",
-  async (credentials, thunkAPI) => {
+  async ({ name, email, password }, thunkAPI) => {
     try {
-      const response = await axios.post("/users/signup", credentials);
+      const response = await axios.post("/users/signup", {
+        name,
+        email,
+        password,
+      });
+      token.setAuth(response.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -17,9 +32,10 @@ export const registerOperation = createAsyncThunk(
 
 export const loginOperation = createAsyncThunk(
   "auth/login",
-  async (credentials, thunkAPI) => {
+  async (userInfo, thunkAPI) => {
     try {
-      const response = await axios.post("/users/login", credentials);
+      const response = await axios.post("/users/login", userInfo);
+      token.setAuth(response.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -30,6 +46,7 @@ export const loginOperation = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await axios.post("/users/logout");
+    token.clearAuth();
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -44,12 +61,13 @@ export const refreshUser = createAsyncThunk(
     if (!persistedToken) {
       return thunkAPI.rejectWithValue("Unable to fetch user");
     }
-
+    token.setAuth(persistedToken);
     try {
       axios.defaults.headers.common.Authorization = `Bearer ${persistedToken}`;
       const response = await axios.get("/users/current");
       return response.data;
     } catch (error) {
+      toast("User is not found!");
       return thunkAPI.rejectWithValue(error.message);
     }
   }

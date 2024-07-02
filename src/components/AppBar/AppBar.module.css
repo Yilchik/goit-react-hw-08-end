@@ -1,7 +1,8 @@
-.title {
+.headerTitle {
   display: flex;
   align-items: baseline;
-
+  box-shadow: 0px 2px 10px 1px;
   gap: 40px;
   padding: 5px;
+  margin-bottom: 40px;
 }

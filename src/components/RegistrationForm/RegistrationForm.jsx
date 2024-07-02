@@ -1,5 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import { useId } from "react";
+import css from "./RegistrationForm.module.css";
 
 const RegistrationForm = ({ submit }) => {
   const nameId = useId();
@@ -15,7 +16,7 @@ const RegistrationForm = ({ submit }) => {
       initialValues={{ name: "", email: "", password: "" }}
       onSubmit={handleSubmit}
     >
-      <Form>
+      <Form className={css.form}>
         <label htmlFor={nameId}>Name: </label>
         <Field name="name" id={nameId} />
         <br />
