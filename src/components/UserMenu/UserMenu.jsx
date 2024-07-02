@@ -12,7 +12,7 @@ const UserMenu = () => {
 
   return (
     <div className={css.nav}>
-      <span>Welcome, {user.name}</span>
+      <span>Welcome, {user.name}!</span>
       <button onClick={handleLogout}>Log out</button>
     </div>
   );
