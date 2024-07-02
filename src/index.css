@@ -30,6 +30,10 @@ body {
   min-height: 100px;
 }
 
+span {
+  color: rgb(120, 236, 197);
+}
+
 h1 {
   line-height: 1.1;
 }
@@ -64,8 +68,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
-
-span {
-  color: rgb(120, 236, 197);
 }
