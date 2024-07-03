@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div>
       {isLoggedIn ? (
-        <p>Contacts</p>
+        <p>Hallo</p>
       ) : (
         <h1>
           Please, <span>log in</span> or <span>register</span>!
