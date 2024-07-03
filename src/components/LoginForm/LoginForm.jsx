@@ -6,14 +6,8 @@ import { loginOperation } from "../../redux/auth/operations";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(3, "Min 3 - To short!")
-    .max(50, "Max 50 - To long!")
-    .required("Required"),
-  number: Yup.string()
-    .min(3, "Min 3 - To short!")
-    .max(50, "Max 50 - To long!")
-    .required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().min(6, "Password too short").required("Required"),
 });
 
 const LoginForm = () => {
@@ -31,15 +25,21 @@ const LoginForm = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <Form className={css.form}>
-        <label htmlFor={emailId}>Email: </label>
-        <Field name="email" id={emailId} />
-        <br />
-        <label htmlFor={passwordId}>Password: </label>
-        <Field name="password" id={passwordId} type="password" />
-        <hr />
-        <button type="submit">Login</button>
-      </Form>
+      {({ errors, touched }) => (
+        <Form className={css.form}>
+          <label htmlFor={emailId}>Email: </label>
+          <Field name="email" id={emailId} type="text" />
+          {errors.email && touched.email ? <div>{errors.email}</div> : null}
+          <br />
+          <label htmlFor={passwordId}>Password: </label>
+          <Field name="password" id={passwordId} type="password" />
+          {errors.password && touched.password ? (
+            <div>{errors.password}</div>
+          ) : null}
+          <hr />
+          <button type="submit">Login</button>
+        </Form>
+      )}
     </Formik>
   );
 };
